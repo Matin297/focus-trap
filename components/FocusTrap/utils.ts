@@ -1,3 +1,5 @@
+import { OrderedTabbableNode } from "./types";
+
 function getNodeTabIndex(node: HTMLElement) {
   const tabIndexAttr = node.getAttribute("tabindex");
   const parsedTabIndexAttr = parseInt(tabIndexAttr || "");
@@ -42,4 +44,52 @@ function isTabbableNodeFocusable(node: HTMLElement) {
   }
 
   return true;
+}
+
+// Inspired by https://github.com/focus-trap/tabbable
+const TABBABLE_SELECTOR = [
+  "input",
+  "select",
+  "textarea",
+  "a[href]",
+  "button",
+  "[tabindex]",
+  "audio[controls]",
+  "video[controls]",
+  '[contenteditable]:not([contenteditable="false"])',
+].join(",");
+
+export function getTabbables(rootNode: HTMLElement) {
+  const regularTabbableNodes: HTMLElement[] = [];
+  const orderedTabbableNodes: OrderedTabbableNode[] = [];
+
+  rootNode
+    .querySelectorAll<HTMLElement>(TABBABLE_SELECTOR)
+    .forEach((node, i) => {
+      const tabIndex = getNodeTabIndex(node);
+
+      if (tabIndex === -1 || !isTabbableNodeFocusable(node)) {
+        return;
+      }
+
+      if (tabIndex === 0) {
+        regularTabbableNodes.push(node);
+      } else {
+        orderedTabbableNodes.push({
+          node: node,
+          tabIndex,
+          documentIndex: i,
+        });
+      }
+    });
+
+  return orderedTabbableNodes
+    .sort((a, b) => {
+      if (a.tabIndex === b.tabIndex) {
+        return a.documentIndex - b.documentIndex;
+      }
+      return a.tabIndex - b.tabIndex;
+    })
+    .map((tabNode) => tabNode.node)
+    .concat(regularTabbableNodes);
 }
