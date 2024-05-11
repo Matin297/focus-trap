@@ -25,3 +25,21 @@ function getNodeTabIndex(node: HTMLElement) {
 
   return node.tabIndex;
 }
+
+function isTabbableNodeFocusable(node: HTMLElement) {
+  if (
+    (node instanceof HTMLInputElement ||
+      node instanceof HTMLButtonElement ||
+      node instanceof HTMLSelectElement ||
+      node instanceof HTMLTextAreaElement) &&
+    node.disabled
+  ) {
+    return false;
+  }
+
+  if (node instanceof HTMLInputElement && node.type === "hidden") {
+    return false;
+  }
+
+  return true;
+}
