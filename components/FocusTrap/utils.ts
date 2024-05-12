@@ -93,3 +93,10 @@ export function getTabbables(rootNode: HTMLElement) {
     .map((tabNode) => tabNode.node)
     .concat(regularTabbableNodes);
 }
+
+export function getOwnerDocument(node?: HTMLElement | null) {
+  if (node) {
+    return node.ownerDocument;
+  }
+  return document;
+}
