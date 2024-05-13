@@ -1,14 +1,3 @@
-import FocusTrap from "@/components/FocusTrap";
-
 export default function Home() {
-  return (
-    <div>
-      <FocusTrap>
-        <form>
-          <input placeholder="test" />
-          <button>Test</button>
-        </form>
-      </FocusTrap>
-    </div>
-  );
+  return <h1>Focus Trap Home Page :)</h1>;
 }
