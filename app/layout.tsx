@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -16,7 +17,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <nav className="p-4 flex gap-4">
+          <Link href="/basic">Basic</Link>
+          <Link href="/auto-focused">Auto-Focused</Link>
+        </nav>
+        <div className="flex flex-col gap-6 max-w-screen-md mx-auto my-6">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
