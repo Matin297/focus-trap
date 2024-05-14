@@ -21,6 +21,7 @@ export default function RootLayout({
         <nav className="p-4 flex gap-4">
           <Link href="/basic">Basic</Link>
           <Link href="/auto-focused">Auto-Focused</Link>
+          <Link href="/nested">Nested</Link>
         </nav>
         <div className="flex flex-col gap-6 max-w-screen-md mx-auto my-6">
           {children}
